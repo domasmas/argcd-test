@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Point to the base configuration
+resources:
+  - ../../base
+  - extra-config.yaml
+
+# Add common labels to everything
+commonLabels:
+  env: test
+  purpose: testing
+
+# Simple patch to change values
+patches:
+  - path: patch.yaml

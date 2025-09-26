@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-extra-config
+data:
+  testMode: "true"
+  testSuite: "integration"
+  cleanup: "auto"

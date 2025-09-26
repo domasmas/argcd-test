@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-config
+data:
+  greeting: "Welcome to Production"
+  count: "10"
+  environment: "production"
+  debug: "false"
+  monitoring: "enabled"

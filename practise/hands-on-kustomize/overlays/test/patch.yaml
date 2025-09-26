@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-config
+data:
+  greeting: "Test Environment Ready"
+  environment: "testing"
+  testMode: "true"
