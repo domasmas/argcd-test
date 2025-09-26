@@ -1,6 +1,9 @@
+using YellowApp.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
+builder.Services.AddSingleton<PodIdentityService>();
 
 var app = builder.Build();
 

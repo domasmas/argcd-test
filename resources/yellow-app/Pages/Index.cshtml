@@ -1,4 +1,5 @@
 @page
+@model YellowApp.Pages.IndexModel
 @{
     Layout = null;
 }
@@ -22,8 +23,8 @@
     </style>
 </head>
 <body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen">
-
-    <h1 class="text-4xl font-bold mb-4">Tennis Game</h1>
+    <h1 class="text-5xl font-bold mb-2 text-yellow-400 tracking-widest uppercase">@Model.PodName</h1>
+    <h2 class="text-3xl font-semibold mb-6 text-gray-200">Tennis Game</h2>
 
     <div class="flex items-center space-x-8 mb-4">
         <div>
@@ -99,7 +100,7 @@
                 } else {
                     playerLives--;
                     livesElement.innerText = playerLives;
-                    if(playerLives <= 0) {
+                    if (playerLives <= 0) {
                         gameOver();
                     } else {
                         reset();
@@ -114,12 +115,12 @@
                     reset();
                 }
             }
-            
+
             computerMovement();
         }
-        
+
         function computerMovement() {
-            let computerYCenter = computerY + (paddleHeight / 2);
+            const computerYCenter = computerY + (paddleHeight / 2);
             if (computerYCenter < ballY - 35) {
                 computerY += 6;
             } else if (computerYCenter > ballY + 35) {
@@ -163,8 +164,8 @@
         });
 
         canvas.addEventListener('mousemove', (e) => {
-            let rect = canvas.getBoundingClientRect();
-            let root = document.documentElement;
+            const rect = canvas.getBoundingClientRect();
+            const root = document.documentElement;
             playerY = e.clientY - rect.top - root.scrollTop - paddleHeight / 2;
         });
 
