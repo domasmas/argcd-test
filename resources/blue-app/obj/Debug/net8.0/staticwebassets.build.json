@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "QYnxBEj4YD4TcbpgY99s/iLrLWoDPbp2fEXQdn8gtOs=",
+  "Source": "blue-app",
+  "BasePath": "_content/blue-app",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

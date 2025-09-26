@@ -66,6 +66,10 @@ Understanding the hierarchy and organization of resources in Argo CD.
 - **Target Revision:** Branch, tag, or commit (e.g., `main`, `v1.2.3`)
 - **Destination:** Which cluster and namespace to deploy to
 
+---
+
+# 🚀 Applications: The Deployment Units
+
 **Key Points:**
 
 - Applications themselves live in the `argocd` namespace

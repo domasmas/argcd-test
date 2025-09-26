@@ -1,0 +1,174 @@
+@page
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tennis Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            background-color: #1a202c;
+        }
+        canvas {
+            background-color: #2d3748;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen">
+
+    <h1 class="text-4xl font-bold mb-4">Tennis Game</h1>
+
+    <div class="flex items-center space-x-8 mb-4">
+        <div>
+            <i class="fas fa-heart text-red-500"></i>
+            <span id="lives" class="text-2xl font-bold">3</span>
+        </div>
+        <div>
+            <i class="fas fa-star text-yellow-500"></i>
+            <span id="score" class="text-2xl font-bold">0</span>
+        </div>
+    </div>
+
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+    <div id="gameOver" class="hidden flex-col items-center justify-center">
+        <h2 class="text-3xl font-bold text-red-500">Game Over</h2>
+        <button id="restart" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Restart</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const context = canvas.getContext('2d');
+
+        let ballX = canvas.width / 2;
+        let ballY = canvas.height / 2;
+        let ballSpeedX = 10;
+        let ballSpeedY = 4;
+        const paddleHeight = 100;
+        const paddleWidth = 10;
+        let playerY = (canvas.height - paddleHeight) / 2;
+        let computerY = (canvas.height - paddleHeight) / 2;
+        let playerScore = 0;
+        let playerLives = 3;
+
+        const livesElement = document.getElementById('lives');
+        const scoreElement = document.getElementById('score');
+        const gameOverElement = document.getElementById('gameOver');
+        const restartButton = document.getElementById('restart');
+
+        function drawRect(x, y, w, h, color) {
+            context.fillStyle = color;
+            context.fillRect(x, y, w, h);
+        }
+
+        function drawCircle(x, y, r, color) {
+            context.fillStyle = color;
+            context.beginPath();
+            context.arc(x, y, r, 0, Math.PI * 2, true);
+            context.fill();
+        }
+
+        function drawNet() {
+            for (let i = 0; i < canvas.height; i += 40) {
+                drawRect(canvas.width / 2 - 1, i, 2, 20, 'white');
+            }
+        }
+
+        function move() {
+            ballX += ballSpeedX;
+            ballY += ballSpeedY;
+
+            if (ballY < 0 || ballY > canvas.height) {
+                ballSpeedY = -ballSpeedY;
+            }
+
+            if (ballX < 0) {
+                if (ballY > playerY && ballY < playerY + paddleHeight) {
+                    ballSpeedX = -ballSpeedX;
+                    let deltaY = ballY - (playerY + paddleHeight / 2);
+                    ballSpeedY = deltaY * 0.35;
+                    playerScore++;
+                    scoreElement.innerText = playerScore;
+                } else {
+                    playerLives--;
+                    livesElement.innerText = playerLives;
+                    if(playerLives <= 0) {
+                        gameOver();
+                    } else {
+                        reset();
+                    }
+                }
+            }
+
+            if (ballX > canvas.width) {
+                if (ballY > computerY && ballY < computerY + paddleHeight) {
+                    ballSpeedX = -ballSpeedX;
+                } else {
+                    reset();
+                }
+            }
+            
+            computerMovement();
+        }
+        
+        function computerMovement() {
+            let computerYCenter = computerY + (paddleHeight / 2);
+            if (computerYCenter < ballY - 35) {
+                computerY += 6;
+            } else if (computerYCenter > ballY + 35) {
+                computerY -= 6;
+            }
+        }
+
+        function draw() {
+            drawRect(0, 0, canvas.width, canvas.height, '#2d3748');
+            drawNet();
+            drawRect(0, playerY, paddleWidth, paddleHeight, 'white');
+            drawRect(canvas.width - paddleWidth, computerY, paddleWidth, paddleHeight, 'white');
+            drawCircle(ballX, ballY, 10, 'white');
+        }
+
+        function update() {
+            move();
+            draw();
+        }
+
+        function reset() {
+            ballX = canvas.width / 2;
+            ballY = canvas.height / 2;
+            ballSpeedX = -ballSpeedX;
+            ballSpeedY = 4;
+        }
+
+        function gameOver() {
+            canvas.style.display = 'none';
+            gameOverElement.style.display = 'flex';
+        }
+
+        restartButton.addEventListener('click', () => {
+            playerLives = 3;
+            playerScore = 0;
+            livesElement.innerText = playerLives;
+            scoreElement.innerText = playerScore;
+            canvas.style.display = 'block';
+            gameOverElement.style.display = 'none';
+            reset();
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            let rect = canvas.getBoundingClientRect();
+            let root = document.documentElement;
+            playerY = e.clientY - rect.top - root.scrollTop - paddleHeight / 2;
+        });
+
+        setInterval(update, 1000 / 30);
+    </script>
+</body>
+</html>

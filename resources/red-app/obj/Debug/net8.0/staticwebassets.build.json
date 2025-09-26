@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "0+v7KutbBGtg7SFzA6rfVGpPjBq/nQwRC6EFu8BLY+c=",
+  "Source": "red-app",
+  "BasePath": "_content/red-app",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

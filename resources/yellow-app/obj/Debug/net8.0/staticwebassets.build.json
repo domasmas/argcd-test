@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "lBygTylYw+mwMWCRHEjtAKLHBAeXFOtscNr1NkaH0RM=",
+  "Source": "yellow-app",
+  "BasePath": "_content/yellow-app",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

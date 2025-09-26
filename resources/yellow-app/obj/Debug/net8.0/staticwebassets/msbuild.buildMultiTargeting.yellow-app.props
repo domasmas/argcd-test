@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\yellow-app.props" />
+</Project>

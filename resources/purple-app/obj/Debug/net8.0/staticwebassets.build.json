@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "TnDvmgYDYCzDdpkFPPFC4BYP9xn/RH2Ly5JQBK9IlUg=",
+  "Source": "purple-app",
+  "BasePath": "_content/purple-app",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
