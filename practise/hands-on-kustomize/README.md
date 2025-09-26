@@ -17,9 +17,10 @@ hands-on-kustomize/
 │   ├── config.yaml          # Plain ConfigMap (the "recipe")
 │   └── kustomization.yaml   # Points to the recipe
 └── overlays/
-    ├── dev/                 # Dev tweaks
-    ├── prod/                # Production tweaks
-    └── test/                # Test tweaks + extra config
+  ├── dev/                 # Dev tweaks
+  ├── prod/                # Production tweaks
+  ├── test/                # Test tweaks + extra config
+  └── hotfix/              # One-line JSON patch example
 ```
 
 The goal: run `kubectl kustomize` on each directory and compare the small differences.
@@ -103,15 +104,32 @@ Two resources are produced:
 
 ---
 
+## Step 5 – Hotfix Overlay (replace a single value)
+
+```powershell
+kubectl kustomize overlays/hotfix/
+```
+
+Only one thing changes:
+
+- `greeting` becomes `Quick fix greeting`
+
+Why so small? This overlay uses a JSON6902 patch (see `patches` section) so the YAML only lists the field you care about—perfect for emergency tweaks.
+
+**Takeaway:** Not every overlay needs a big patch file; you can surgically replace a single value.
+
+---
+
 ## Quick Reference: Kustomize Features in Play
 
-| Feature        | Where used    | Why it helps                            |
-| -------------- | ------------- | --------------------------------------- |
-| `resources`    | all dirs      | points to base and any extra files      |
-| `commonLabels` | overlays      | ensures every object carries env labels |
-| `namePrefix`   | dev/prod      | avoids collisions between environments  |
-| `nameSuffix`   | prod          | further disambiguates resource names    |
-| `patches`      | dev/prod/test | override only the fields you need       |
+| Feature        | Where used    | Why it helps                             |
+| -------------- | ------------- | ---------------------------------------- |
+| `resources`    | all dirs      | points to base and any extra files       |
+| `commonLabels` | overlays      | ensures every object carries env labels  |
+| `namePrefix`   | dev/prod      | avoids collisions between environments   |
+| `nameSuffix`   | prod          | further disambiguates resource names     |
+| `patches`      | dev/prod/test | override only the fields you need        |
+| JSON6902 patch | hotfix        | replace a single field with minimal YAML |
 
 ---
 
