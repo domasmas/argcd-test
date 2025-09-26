@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue-app-martyn
+  labels:
+    app: blue-app-martyn
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blue-app-martyn
+  template:
+    metadata:
+      labels:
+        app: blue-app-martyn
+    spec:
+      containers:
+        - name: web
+          image: domasmasiulis/blue-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_URLS
+              value: "http://+:8080"

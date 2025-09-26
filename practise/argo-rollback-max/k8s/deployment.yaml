@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue-app-max
+  labels:
+    app: blue-app-max
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blue-app-max
+  template:
+    metadata:
+      labels:
+        app: blue-app-max
+    spec:
+      containers:
+        - name: web
+          image: domasmasiulis/blue-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_URLS
+              value: "http://+:8080"

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue-app-david
+  labels:
+    app: blue-app-david
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blue-app-david
+  template:
+    metadata:
+      labels:
+        app: blue-app-david
+    spec:
+      containers:
+        - name: web
+          image: domasmasiulis/blue-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_URLS
+              value: "http://+:8080"

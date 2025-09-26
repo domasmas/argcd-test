@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yellow-app
+  labels:
+    app: yellow-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: yellow-app
+  template:
+    metadata:
+      labels:
+        app: yellow-app
+    spec:
+      containers:
+        - name: yellow-app
+          image: domasmasiulis/yellow-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_URLS
+              value: "http://+:8080"
