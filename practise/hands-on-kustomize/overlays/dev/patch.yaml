@@ -1,6 +1,9 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: ConfigMap
 metadata:
-  name: my-app
-spec:
-  replicas: 2
+  name: my-config
+data:
+  greeting: "Hello Dev World"
+  count: "3"
+  environment: "development"
+  debug: "true"

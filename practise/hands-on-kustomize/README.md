@@ -1,86 +1,140 @@
-# Kustomize Hands-On: Understanding Base vs. Overlays
+# Hands-On Kustomize (Super Simple Edition)
 
-This exercise demonstrates the core power of Kustomize: customizing a single base configuration for multiple environments without duplicating YAML.
+A tiny lab that shows how one base file can be transformed into multiple environment-specific variants with just a few, easy-to-read overlays.
 
-**Goal:** See how a `dev` overlay can change the replica count and add labels to a `base` deployment.
+## What You Need
 
-**Prerequisite:** `kubectl` v1.14+ (Kustomize is built-in).
+- `kubectl` v1.14 or newer (includes Kustomize by default)
+- No cluster required unless you want to `kubectl apply` the output
 
 ---
 
-### Step 1: The `base` Configuration
+## Folder Layout
 
-The `base` directory contains the standard, shared configuration for our application.
+```
+hands-on-kustomize/
+├── base/
+│   ├── config.yaml          # Plain ConfigMap (the "recipe")
+│   └── kustomization.yaml   # Points to the recipe
+└── overlays/
+    ├── dev/                 # Dev tweaks
+    ├── prod/                # Production tweaks
+    └── test/                # Test tweaks + extra config
+```
 
-**(A) Explore the `base` files:**
+The goal: run `kubectl kustomize` on each directory and compare the small differences.
 
-- `base/deployment.yaml`: A simple NGINX deployment with `replicas: 1`.
-- `base/kustomization.yaml`: Tells Kustomize that `deployment.yaml` is part of the base.
+---
 
-**(B) See the `base` output:**
-Run this command to see what the standard YAML looks like:
+## Step 1 – Inspect the Base
 
-```sh
+```powershell
 kubectl kustomize base/
 ```
 
-**Result:** You'll see the raw `deployment.yaml` content. Notice `replicas: 1`.
+Expected values:
+
+- name: `my-config`
+- data:
+  - `greeting: Hello`
+  - `count: "1"`
+  - `environment: base`
+
+Everything else in the overlays starts from this.
 
 ---
 
-### Step 2: The `dev` Overlay
+## Step 2 – Dev Overlay (add a little spice)
 
-The `overlays/dev` directory contains our environment-specific customizations. It doesn't copy the base; it just describes the _changes_ we want to make.
-
-**(A) Explore the `dev` overlay files:**
-
-- `overlays/dev/patch.yaml`: A small snippet that says "I want `replicas: 2`".
-- `overlys/dev/kustomization.yaml`: The magic file! It tells Kustomize to:
-  1. Use the `base` configuration as a starting point.
-  2. Apply the `patch.yaml` to change the replica count.
-  3. Add a common label `env: dev` to everything.
-
----
-
-### Step 3: See the Result!
-
-Now, let's build the `dev` overlay to see Kustomize merge the `base` and the `overlay`.
-
-**(A) Build the `dev` overlay:**
-
-```sh
+```powershell
 kubectl kustomize overlays/dev/
 ```
 
-**(B) Check the final YAML:**
-You will see a new, combined Deployment manifest. Look for these changes:
+What changed?
 
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    env: dev # <-- The new label was added!
-  name: my-app
-spec:
-  replicas: 2 # <-- The replica count was changed!
-  selector:
-    matchLabels:
-      app: my-app
-      env: dev # <-- The label was added here too!
-  template:
-    metadata:
-      labels:
-        app: my-app
-        env: dev # <-- And here!
-# ...
-```
+- Name becomes `dev-my-config` (thanks to `namePrefix`)
+- Labels added: `env=dev`, `team=developers`
+- Data overridden by the patch:
+  - `greeting: Hello Dev World`
+  - `count: "3"`
+  - `environment: development`
+  - `debug: "true"`
+
+**Takeaway:** patches + labels + prefixes = environment-specific config without copy/paste.
 
 ---
 
-## Core Concepts You've Learned
+## Step 3 – Prod Overlay (tighten things up)
 
-- **DRY (Don't Repeat Yourself):** We customized a deployment without copying any YAML.
-- **Bases and Overlays:** The fundamental pattern for managing environments.
-- **Patches:** How to make small, targeted changes to a base configuration.
-- **Declarative Customization:** You declare _what_ you want to change in `kustomization.yaml`, not _how_ to change it.
+```powershell
+kubectl kustomize overlays/prod/
+```
+
+Differences vs. base:
+
+- Name: `prod-my-config-live` (prefix + suffix)
+- Labels: `env=prod`, `team=operations`
+- Data:
+  - `greeting: Welcome to Production`
+  - `count: "10"`
+  - `environment: production`
+  - `debug: "false"`
+  - `monitoring: enabled`
+
+**Takeaway:** Overlay can both remove and add keys, not just tweak existing ones.
+
+---
+
+## Step 4 – Test Overlay (add an extra resource)
+
+```powershell
+kubectl kustomize overlays/test/
+```
+
+Two resources are produced:
+
+1. Updated `my-config` with:
+   - `greeting: Test Environment Ready`
+   - `environment: testing`
+   - `testMode: "true"`
+2. A brand new ConfigMap named `test-extra-config` (declared in `resources`)
+
+**Takeaway:** Overlays can bring their own files and still inherit the base.
+
+---
+
+## Quick Reference: Kustomize Features in Play
+
+| Feature        | Where used    | Why it helps                            |
+| -------------- | ------------- | --------------------------------------- |
+| `resources`    | all dirs      | points to base and any extra files      |
+| `commonLabels` | overlays      | ensures every object carries env labels |
+| `namePrefix`   | dev/prod      | avoids collisions between environments  |
+| `nameSuffix`   | prod          | further disambiguates resource names    |
+| `patches`      | dev/prod/test | override only the fields you need       |
+
+---
+
+## Try It Yourself
+
+1. **Add a staging overlay**
+
+   - Copy `overlays/dev` to `overlays/staging`
+   - Change the labels to `env: staging`
+   - Tweak data (e.g., `count: "2"`)
+   - Run `kubectl kustomize overlays/staging/`
+
+2. **Change the base**
+   - Add `version: "1.0"` to `base/config.yaml`
+   - Re-run each overlay command; the new key flows automatically.
+
+---
+
+## Where This Fits in GitOps
+
+- Git stays the source of truth.
+- Argo CD (or any GitOps controller) detects `kustomization.yaml` automatically.
+- Each overlay can become an Argo CD application pointing at its own path.
+- Change the base? Every environment gets the update the next time it syncs.
+
+Enjoy experimenting—this setup is intentionally tiny so you can focus on the Kustomize mechanics without getting lost in YAML noise.

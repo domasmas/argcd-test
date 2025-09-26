@@ -1,11 +1,18 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+# Point to the base configuration
 resources:
   - ../../base
 
-patchesStrategicMerge:
-  - patch.yaml
-
+# Add common labels to everything
 commonLabels:
   env: dev
+  team: developers
+
+# Add a prefix to resource names
+namePrefix: dev-
+
+# Change specific values with patches
+patches:
+  - path: patch.yaml

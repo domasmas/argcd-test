@@ -1,19 +1,8 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: ConfigMap
 metadata:
-  name: my-app
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: my-app
-  template:
-    metadata:
-      labels:
-        app: my-app
-    spec:
-      containers:
-        - name: my-app
-          image: nginx:latest
-          ports:
-            - containerPort: 80
+  name: my-config
+data:
+  greeting: "Hello"
+  count: "1"
+  environment: "base"

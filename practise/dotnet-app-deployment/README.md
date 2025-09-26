@@ -4,9 +4,11 @@ This exercise demonstrates GitOps deployment of a simple .NET web application us
 
 ## Prerequisites
 
-- Local Argo CD instance running (from previous exercise)
-- This Git repository pushed to a Git hosting service (GitHub, GitLab, etc.)
+- Local Argo CD instance running (from previous exercise: `.\setup.ps1`)
+- This Git repository accessible (public or configured in Argo CD)
 - Docker Desktop with Kubernetes enabled
+
+**💡 Tip:** If you haven't set up ArgoCD yet, go to `practise/argo-cd-local/` and run `.\setup.ps1` first.
 
 ## What You'll Learn
 
@@ -53,8 +55,8 @@ The `k8s/` folder is what Argo CD will monitor for changes.
 
 ### Step 2: Create an Argo CD Application via UI
 
-1. **Open Argo CD UI:** http://localhost:8088
-2. **Login:** username: `admin`, password: `<your local ArgoCD password>`
+1. **Open Argo CD UI:** http://localhost:30088
+2. **Login:** username: `admin`, password: `<from setup script output>`
 3. **Click "NEW APP"** (top left)
 
 ### Step 3: Configure the Application
