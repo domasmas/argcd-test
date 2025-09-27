@@ -27,13 +27,13 @@ patches:
     # Patch contains the actual changes using JSON Patch format
     # JSON Patch is a standard way to describe changes to JSON/YAML documents
     # The "|-" means this is a YAML literal block (preserves formatting)
+    # This is JSON Patch syntax - an array of operations
+    # "op" specifies the operation type (replace, add, remove, etc.)
+    # "path" specifies the exact location in the document to change
+    # "/data/greeting" means: go to the "data" section, then the "greeting" key
+    # "value" is the new value to set at that path
+    # This will replace whatever greeting was in the base
     patch: |-
-      # This is JSON Patch syntax - an array of operations
-      # "op" specifies the operation type (replace, add, remove, etc.)
       - op: replace
-        # "path" specifies the exact location in the document to change
-        # "/data/greeting" means: go to the "data" section, then the "greeting" key
         path: /data/greeting
-        # "value" is the new value to set at that path
-        # This will replace whatever greeting was in the base
         value: "Quick fix greeting"

@@ -18,11 +18,7 @@ metadata:
 # Data section contains the actual configuration key-value pairs
 # All values in ConfigMaps must be strings (even numbers are stored as strings)
 data:
-  # A greeting message that applications can use
   greeting: "Hello"
-
-  # A count value - notice it's a string even though it represents a number
-  # Applications will need to parse this as an integer if they need a number
   count: "1"
 
   # Environment indicator - this helps identify which environment this config is for

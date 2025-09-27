@@ -9,7 +9,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 # Resources section points to the base configuration that this overlay inherits from
-# The "../../base" means go up two directories and then into the base directory
 resources:
   # This includes all resources defined in the base kustomization
   # Everything from base/kustomization.yaml will be inherited here

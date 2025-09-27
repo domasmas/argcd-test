@@ -15,5 +15,4 @@ kind: Kustomization
 # can inherit and modify
 resources:
   # Include the config.yaml file which contains our base Kubernetes resources
-  # The "-" indicates this is a YAML list item
   - config.yaml
