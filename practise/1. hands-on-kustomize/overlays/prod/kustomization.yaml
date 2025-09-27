@@ -1,21 +1,39 @@
+# This is the Kustomization file for the PRODUCTION environment overlay
+# Production typically has the most strict and comprehensive configuration
+
+# API version for Kustomize configuration files
 apiVersion: kustomize.config.k8s.io/v1beta1
+
+# Kind specifies this is a Kustomization resource
 kind: Kustomization
 
-# Point to the base configuration
+# Resources section - inherit from base configuration
 resources:
+  # Include all base resources - the foundation for production deployment
+  # Production inherits the same base resources as dev and test for consistency
   - ../../base
 
-# Add common labels to everything
+# CommonLabels for production environment
+# These help with monitoring, alerting, and resource management in production
 commonLabels:
+  # Environment label for production
   env: prod
+  # Team responsible for production operations
   team: operations
 
-# Add a prefix to resource names
+# NamePrefix adds a prefix to ALL resource names
+# Important in production to clearly identify production resources
+# Example: "my-config" becomes "prod-my-config-live"
 namePrefix: prod-
 
-# Add a suffix too
+# NameSuffix adds a suffix to ALL resource names
+# Combined with namePrefix, this creates very clear resource identification
+# This is especially useful in production to avoid any confusion about what resources are live
 nameSuffix: -live
 
-# Change specific values with patches
+# Patches for production-specific configuration
+# Production patches often focus on performance, security, and reliability
 patches:
+  # Apply production-specific modifications
+  # Production patches typically contain more conservative/stable values
   - path: patch.yaml

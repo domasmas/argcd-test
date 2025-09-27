@@ -1,8 +1,27 @@
+# This is an ADDITIONAL resource that only exists in the TEST environment
+# This demonstrates how overlays can add completely new resources, not just modify existing ones
+# This ConfigMap will be created ALONGSIDE the modified base ConfigMap
+
+# Standard Kubernetes API version for core resources
 apiVersion: v1
+
+# This is a ConfigMap resource, just like the base one
 kind: ConfigMap
+
+# Metadata for this additional ConfigMap
 metadata:
+  # Different name from the base ConfigMap to avoid conflicts
+  # This will be a separate ConfigMap with its own configuration
   name: test-extra-config
+
+# Data specific to test environment operations
+# This configuration might be used by test automation tools
 data:
+  # Enable test mode - this could control test-specific behavior in applications
   testMode: "true"
+
+  # Specify which test suite to run - useful for CI/CD pipelines
   testSuite: "integration"
+
+  # Configure automatic cleanup after tests - helps maintain clean test environments
   cleanup: "auto"

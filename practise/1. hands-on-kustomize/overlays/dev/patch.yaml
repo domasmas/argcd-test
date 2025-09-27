@@ -1,9 +1,33 @@
+# This is a PATCH file that modifies the base ConfigMap for the DEV environment
+# A patch tells Kustomize how to modify resources from the base configuration
+# The patch will MERGE with or REPLACE parts of the base resource
+
+# This must match the API version of the resource being patched
 apiVersion: v1
+
+# This must match the kind of the resource being patched (ConfigMap in this case)
 kind: ConfigMap
+
+# The metadata must match the resource you want to patch
 metadata:
+  # This name must match the name in the base config.yaml
+  # Kustomize uses this to identify WHICH resource to patch
+  # Note: The final name will be "dev-my-config" due to namePrefix in kustomization.yaml
   name: my-config
+
+# The data section contains the values that will override or add to the base ConfigMap
+# Any keys specified here will replace the same keys in the base
+# New keys will be added to the ConfigMap
 data:
+  # Override the greeting from the base - changes "Hello" to "Hello Dev World"
   greeting: "Hello Dev World"
+
+  # Override the count from the base - changes "1" to "3"
   count: "3"
+
+  # Override the environment from the base - changes "base" to "development"
   environment: "development"
+
+  # Add a new key that doesn't exist in the base ConfigMap
+  # This demonstrates that patches can add new data, not just modify existing data
   debug: "true"

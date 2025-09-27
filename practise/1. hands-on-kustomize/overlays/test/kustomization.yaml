@@ -1,16 +1,32 @@
+# This is the Kustomization file for the TEST environment overlay
+# This demonstrates how each environment can have different customizations
+
+# API version for Kustomize configuration files
 apiVersion: kustomize.config.k8s.io/v1beta1
+
+# Kind specifies this is a Kustomization resource
 kind: Kustomization
 
-# Point to the base configuration
+# Resources section includes both base resources and additional test-specific resources
 resources:
+  # Inherit all resources from the base configuration
+  # This includes the ConfigMap defined in base/config.yaml
   - ../../base
+
+  # Add an additional resource that is ONLY used in the test environment
+  # This shows how overlays can add new resources, not just modify existing ones
   - extra-config.yaml
 
-# Add common labels to everything
+# CommonLabels for the test environment - different from dev environment
+# These labels will be applied to ALL resources (both inherited and new ones)
 commonLabels:
+  # Environment label specific to test
   env: test
+  # Purpose label helps identify what these resources are used for
   purpose: testing
 
-# Simple patch to change values
+# Patches section - modify the inherited base resources for test environment
 patches:
+  # Apply test-specific modifications to the base ConfigMap
+  # This patch.yaml will contain different values than the dev patch
   - path: patch.yaml

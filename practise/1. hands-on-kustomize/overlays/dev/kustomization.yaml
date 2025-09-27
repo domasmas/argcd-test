@@ -1,18 +1,37 @@
+# This is the Kustomization file for the DEV environment overlay
+# An overlay inherits from a base and applies environment-specific customizations
+# This allows you to have one base configuration and multiple environment variations
+
+# API version for Kustomize configuration files
 apiVersion: kustomize.config.k8s.io/v1beta1
+
+# Kind specifies this is a Kustomization resource
 kind: Kustomization
 
-# Point to the base configuration
+# Resources section points to the base configuration that this overlay inherits from
+# The "../../base" means go up two directories and then into the base directory
 resources:
+  # This includes all resources defined in the base kustomization
+  # Everything from base/kustomization.yaml will be inherited here
   - ../../base
 
-# Add common labels to everything
+# CommonLabels automatically adds these labels to ALL resources in this kustomization
+# This is useful for identifying which environment resources belong to
+# These labels will be added to metadata.labels of every resource
 commonLabels:
+  # Environment label - useful for filtering resources by environment
   env: dev
+  # Team label - useful for identifying which team owns these resources
   team: developers
 
-# Add a prefix to resource names
+# NamePrefix adds a prefix to the name of ALL resources
+# This helps avoid naming conflicts between environments
+# For example, "my-config" becomes "dev-my-config"
 namePrefix: dev-
 
-# Change specific values with patches
+# Patches section allows you to modify specific parts of the base resources
+# This is where environment-specific changes are applied
 patches:
+  # Path points to a patch file that contains the modifications
+  # The patch.yaml file will contain instructions on how to modify the base resources
   - path: patch.yaml

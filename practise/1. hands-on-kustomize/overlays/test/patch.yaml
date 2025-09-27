@@ -1,8 +1,28 @@
+# This is a PATCH file specifically for the TEST environment
+# It demonstrates how different environments can have completely different patches
+
+# Must match the API version of the resource being patched
 apiVersion: v1
+
+# Must match the kind of the resource being patched
 kind: ConfigMap
+
+# Metadata to identify which resource to patch
 metadata:
+  # Must match the name of the ConfigMap in the base configuration
+  # Kustomize will find the base ConfigMap and apply these changes to it
   name: my-config
+
+# Data section with test environment specific values
 data:
+  # Override the greeting with a test-specific message
+  # Different from both base ("Hello") and dev ("Hello Dev World")
   greeting: "Test Environment Ready"
+
+  # Override the environment identifier for test
+  # Note: we're not overriding "count" so it will keep the base value of "1"
   environment: "testing"
+
+  # Add a test-specific configuration that doesn't exist in base or dev
+  # This shows how each overlay can add unique configuration
   testMode: "true"

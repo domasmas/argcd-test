@@ -1,8 +1,30 @@
+# This is a standard Kubernetes ConfigMap resource
+# ConfigMaps store non-confidential data as key-value pairs
+# Applications can consume this data as environment variables, command-line arguments, or config files
+
+# API version for core Kubernetes resources like ConfigMap, Service, Deployment, etc.
 apiVersion: v1
+
+# Kind specifies this is a ConfigMap resource
+# ConfigMaps are used to store configuration data that pods can consume
 kind: ConfigMap
+
+# Metadata contains information about this resource
 metadata:
+  # Name is the identifier for this ConfigMap
+  # Other resources will reference this ConfigMap by this name
   name: my-config
+
+# Data section contains the actual configuration key-value pairs
+# All values in ConfigMaps must be strings (even numbers are stored as strings)
 data:
+  # A greeting message that applications can use
   greeting: "Hello"
+
+  # A count value - notice it's a string even though it represents a number
+  # Applications will need to parse this as an integer if they need a number
   count: "1"
+
+  # Environment indicator - this helps identify which environment this config is for
+  # In the base, this is set to "base" but overlays can override this value
   environment: "base"

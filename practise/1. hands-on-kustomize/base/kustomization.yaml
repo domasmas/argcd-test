@@ -1,5 +1,19 @@
+# This is the main Kustomization file for the "base" configuration
+# The base contains the common/shared resources that will be used by all environments
+
+# API version for Kustomize configuration files
+# This tells Kubernetes what version of the Kustomize API we're using
 apiVersion: kustomize.config.k8s.io/v1beta1
+
+# Kind specifies this is a Kustomization resource
+# This is what makes this file special - it's not a regular Kubernetes resource
+# but a Kustomize configuration that defines how to build Kubernetes manifests
 kind: Kustomization
 
+# Resources section lists all the Kubernetes YAML files that should be included
+# in this kustomization. These are the "base" resources that other environments
+# can inherit and modify
 resources:
+  # Include the config.yaml file which contains our base Kubernetes resources
+  # The "-" indicates this is a YAML list item
   - config.yaml

@@ -1,14 +1,39 @@
+# This is the Kustomization file for the HOTFIX environment overlay
+# This demonstrates an INLINE PATCH approach (different from file-based patches)
+# Hotfixes often need quick, targeted changes without creating separate patch files
+
+# API version for Kustomize configuration files
 apiVersion: kustomize.config.k8s.io/v1beta1
+
+# Kind specifies this is a Kustomization resource
 kind: Kustomization
 
+# Resources section - inherit base configuration for hotfix
 resources:
+  # Include the base resources that need the hotfix applied
+  # Hotfixes typically start from the same base as production
   - ../../base
 
+# Patches section using INLINE patching instead of separate files
+# This approach is useful for quick fixes that don't warrant separate patch files
 patches:
+  # Target specifies exactly which resource to patch
   - target:
+      # Only patch ConfigMap resources (not other resource types)
       kind: ConfigMap
+      # Only patch the ConfigMap with this specific name
+      # This ensures the patch is applied to exactly the right resource
       name: my-config
+    # Patch contains the actual changes using JSON Patch format
+    # JSON Patch is a standard way to describe changes to JSON/YAML documents
+    # The "|-" means this is a YAML literal block (preserves formatting)
     patch: |-
+      # This is JSON Patch syntax - an array of operations
+      # "op" specifies the operation type (replace, add, remove, etc.)
       - op: replace
+        # "path" specifies the exact location in the document to change
+        # "/data/greeting" means: go to the "data" section, then the "greeting" key
         path: /data/greeting
+        # "value" is the new value to set at that path
+        # This will replace whatever greeting was in the base
         value: "Quick fix greeting"

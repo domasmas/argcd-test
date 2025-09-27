@@ -1,10 +1,34 @@
+# This is a PATCH file for the PRODUCTION environment
+# Production patches typically focus on stability, performance, and monitoring
+
+# Must match the API version of the resource being patched
 apiVersion: v1
+
+# Must match the kind of the resource being patched
 kind: ConfigMap
+
+# Metadata to identify the target resource
 metadata:
+  # Must match the name of the ConfigMap in the base configuration
+  # Final name will be "prod-my-config-live" due to namePrefix and nameSuffix
   name: my-config
+
+# Data section with production-optimized values
 data:
+  # Professional greeting appropriate for production users
   greeting: "Welcome to Production"
+
+  # Higher count value for production scale - more than dev (3) or base (1)
   count: "10"
+
+  # Clear environment identification for production
   environment: "production"
+
+  # Debug disabled in production for security and performance
+  # Notice this is opposite of dev environment where debug was "true"
   debug: "false"
+
+  # Enable monitoring for production observability
+  # This is a production-specific setting that doesn't exist in other environments
+  # Essential for tracking production system health
   monitoring: "enabled"
