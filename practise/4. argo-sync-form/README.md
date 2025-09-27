@@ -1,12 +1,14 @@
 # Argo CD Sync Form Deep-Dive (Color App Lab)
 
-This lab explores every control on Argo CD's **Sync** dialog using the five color-themed en, blue, yellow, purple, red). Each exercise shows how a setting changes the outcome when you synchronize the `sync-form-lab` application.
+This lab explores e### 4.2 Dry run vs apply (showing why dry run doesn't change the cluster)
+
+1. Open `practise/4. argo-sync-form/k8s/deployment.yaml` in your editor. Locate the line `image: domasmasiulis/green-app:latest` and change it to `image: domasmasiulis/blue-app:latest`.y control on Argo CD's **Sync** dialog using the five color-themed en, blue, yellow, purple, red). Each exercise shows how a setting changes the outcome when you synchronize the `sync-form-lab` application.
 
 > **Heads-up:** The **Red App** intentionally throws an exception a few seconds after start-up. You'll use it to observe retry, force, and replace behaviour during sync.
 
 ## 1. Prerequisites
 
-- Argo CD installed locally (use `practise/argo-cd-local/setup.ps1` if needed).
+- Argo CD installed locally (use `practise/2. argo-cd-local/setup.ps1` if needed).
 - This repository pushed to a Git host reachable by Argo CD.
 - `kubectl` configured to point at the same cluster Argo CD manages.
 - The color app images published (run the build scripts under `resources/<color>-app/` if you need fresh images).
@@ -16,7 +18,7 @@ This lab explores every control on Argo CD's **Sync** dialog using the five colo
 From the repo root:
 
 ```powershell
-cd practise/argo-sync-form
+cd practise/4. argo-sync-form
 ./deploy.ps1 -RepositoryUrl "https://github.com/<your-username>/argcd-test" -Revision main
 ```
 

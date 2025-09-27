@@ -3,8 +3,8 @@ param(
     [string]$RepositoryUrl,
 
     [string]$Revision = "main",
-    [string]$AppName = "sync-form-lab",
-    [string]$Namespace = "sync-form"
+    [string]$AppName = "rollback-blue-to-purple-domas",
+    [string]$Namespace = "blue-app-domas"
 )
 
 $ErrorActionPreference = "Stop"
@@ -24,13 +24,19 @@ spec:
   source:
     repoURL: $RepositoryUrl
     targetRevision: $Revision
-    path: practise/argo-sync-form/k8s
+    path: practise/5. argo-rollback/domas/k8s
   destination:
     server: https://kubernetes.default.svc
     namespace: $Namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
 "@
 
 Write-Host "Applying Argo CD Application '$AppName'" -ForegroundColor Cyan
 $applicationDefinition | kubectl apply -f - | Out-Host
 
-Write-Host "Application registered with manual sync. Open the Argo CD UI to experiment with the Sync form." -ForegroundColor Green
+Write-Host "Application registered. Argo CD will sync to the blue app image by default." -ForegroundColor Green

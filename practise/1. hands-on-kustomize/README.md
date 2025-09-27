@@ -12,7 +12,7 @@ A tiny lab that shows how one base file can be transformed into multiple environ
 ## Folder Layout
 
 ```
-hands-on-kustomize/
+1. hands-on-kustomize/
 ├── base/
 │   ├── config.yaml          # Plain ConfigMap (the "recipe")
 │   └── kustomization.yaml   # Points to the recipe

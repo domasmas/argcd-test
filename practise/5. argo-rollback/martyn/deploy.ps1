@@ -24,7 +24,7 @@ spec:
   source:
     repoURL: $RepositoryUrl
     targetRevision: $Revision
-    path: practise/argo-rollback/martyn/k8s
+    path: practise/5. argo-rollback/martyn/k8s
   destination:
     server: https://kubernetes.default.svc
     namespace: $Namespace

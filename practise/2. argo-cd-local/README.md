@@ -51,7 +51,7 @@ The provided `setup.ps1` script automates the entire Argo CD installation proces
 
 ```powershell
 # Navigate to the exercise directory
-cd practise\argo-cd-local
+cd practise\2. argo-cd-local
 
 # Run the setup script
 .\setup.ps1
@@ -229,8 +229,8 @@ kubectl get namespaces
 
 With Argo CD running locally, you're ready for:
 
-1. **[Deploy .NET App with GitOps](../dotnet-app-deployment/README.md)** - Create your first GitOps application
-2. **[Hands-on Kustomize](../hands-on-kustomize/README.md)** - Learn configuration management with Kustomize
+1. **[Deploy .NET App with GitOps](../3. dotnet-app-deployment/README.md)** - Create your first GitOps application
+2. **[Hands-on Kustomize](../1. hands-on-kustomize/README.md)** - Learn configuration management with Kustomize
 
 ## Additional Resources
 

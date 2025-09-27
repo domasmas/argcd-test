@@ -8,7 +8,7 @@ This exercise demonstrates GitOps deployment of a simple .NET web application us
 - This Git repository accessible (public or configured in Argo CD)
 - Docker Desktop with Kubernetes enabled
 
-**💡 Tip:** If you haven't set up ArgoCD yet, go to `practise/argo-cd-local/` and run `.\setup.ps1` first.
+**💡 Tip:** If you haven't set up ArgoCD yet, go to `practise/2. argo-cd-local/` and run `.\setup.ps1` first.
 
 ## What You'll Learn
 
@@ -22,7 +22,7 @@ This exercise demonstrates GitOps deployment of a simple .NET web application us
 This exercise uses a pre-built ASP.NET sample application from Microsoft's official container registry.
 
 ```
-dotnet-app-deployment/
+3. dotnet-app-deployment/
 ├── k8s/                     # Kubernetes manifests (GitOps source)
 │   ├── deployment.yaml      # App deployment using public image
 │   ├── service.yaml         # Service to expose app
@@ -40,7 +40,7 @@ dotnet-app-deployment/
 This repository contains a complete GitOps setup:
 
 ```
-practise/dotnet-app-deployment/
+practise/3. dotnet-app-deployment/
 ├── app/                     # .NET application source code
 │   ├── Program.cs           # Minimal web app (containerized)
 │   ├── MyApp.csproj         # Project file
@@ -74,7 +74,7 @@ Fill in these details in the "NEW APPLICATION" form:
 - **Repository URL:** `https://github.com/yourusername/yourrepo`
   _(Replace with your actual Git repository URL where this code lives)_
 - **Revision:** `HEAD` (or `main`/`master` branch)
-- **Path:** `practise/dotnet-app-deployment/k8s`
+- **Path:** `practise/3. dotnet-app-deployment/k8s`
 
 **DESTINATION**
 
@@ -122,7 +122,7 @@ Now let's see the real power of GitOps:
 
 1. **Edit the application** in your Git repository:
 
-   - Open `practise/dotnet-app-deployment/k8s/deployment.yaml`
+   - Open `practise/3. dotnet-app-deployment/k8s/deployment.yaml`
    - Change `replicas: 1` to `replicas: 2`
    - Commit and push the change
 
