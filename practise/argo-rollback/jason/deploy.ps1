@@ -3,8 +3,8 @@ param(
     [string]$RepositoryUrl,
 
     [string]$Revision = "main",
-    [string]$AppName = "rollback-blue-to-purple-max",
-    [string]$Namespace = "blue-app-max"
+    [string]$AppName = "rollback-blue-to-purple-jason",
+    [string]$Namespace = "blue-app-jason"
 )
 
 $ErrorActionPreference = "Stop"
@@ -24,7 +24,7 @@ spec:
   source:
     repoURL: $RepositoryUrl
     targetRevision: $Revision
-    path: practise/argo-rollback-max/k8s
+    path: practise/argo-rollback/jason/k8s
   destination:
     server: https://kubernetes.default.svc
     namespace: $Namespace

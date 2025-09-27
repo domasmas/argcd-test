@@ -6,7 +6,7 @@ This lab walks you through an automated rollout from the **Blue App** to the **P
 
 ```powershell
 # From repo root
-cd practise/argo-rollback-martyn
+cd practise/argo-rollback/martyn
 ./deploy.ps1 -RepositoryUrl "https://github.com/<your-username>/argcd-test" -Revision main
 ```
 
@@ -23,7 +23,7 @@ Browse to `http://localhost:30086` to confirm the blue UI.
 
 ## 2. Trigger a rollout to the Purple App via GitOps
 
-1. Edit `practise/argo-rollback-martyn/k8s/kustomization.yaml`.
+1. Edit `practise/argo-rollback/martyn/k8s/kustomization.yaml`.
 2. Change the `newName` under the `images` section from `domasmasiulis/blue-app` to `domasmasiulis/purple-app`.
 3. Commit and push your change.
 
