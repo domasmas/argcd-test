@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sync-form-app
+  labels:
+    app: sync-form-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sync-form-app
+  template:
+    metadata:
+      labels:
+        app: sync-form-app
+    spec:
+      containers:
+        - name: web
+          image: domasmasiulis/green-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_URLS
+              value: "http://+:8080"
