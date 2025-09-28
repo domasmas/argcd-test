@@ -120,8 +120,7 @@ Tip: run `kubectl get pods -n sync-form --watch` and `kubectl get events -n sync
 1. Switch the Deployment image to `domasmasiulis/red-app:latest`, commit, and push.
 2. In the sync drawer expand **Retry**, set **Limit** to `3`, **Backoff** to `5s`, and sync.
 3. The pod crashes repeatedly; **SYNC STATUS** increments the retry count until it gives up.
-4. Inspect **HISTORY AND ROLLBACK** to see the retry metadata captured.
-5. Restore a healthy image (e.g., Blue), commit, push, and sync to return to normal.
+4. Restore a healthy image (e.g., Blue), commit, push, and sync to return to normal.
 
 ### 4.6 Apply out-of-sync only – drift correction
 
