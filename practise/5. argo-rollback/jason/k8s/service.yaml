@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: blue-app-domas
+  name: blue-app-jason
   labels:
-    app: blue-app-domas
+    app: blue-app-jason
 spec:
   type: NodePort
   ports:
@@ -11,4 +11,4 @@ spec:
       targetPort: 8080
       nodePort: 30081
   selector:
-    app: blue-app-domas
+    app: blue-app-jason
