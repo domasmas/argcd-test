@@ -7,15 +7,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Invaders</title>
+    <title>Space Invaders - Green Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         body {
-            background-color: #0c0a09; /* A very dark gray, almost black */
+            background-color: #16a34a; /* Green background instead of black */
         }
         canvas {
-            background-color: #1c1917; /* Darker gray for the game area */
+            background-color: #22c55e; /* Lighter green for the game area */
             display: block;
             margin: 0 auto;
         }
@@ -23,7 +23,7 @@
 </head>
 <body class="text-white flex flex-col items-center justify-center min-h-screen font-mono">
 
-    <h1 class="text-4xl font-bold mb-4 text-cyan-400 tracking-widest">SPACE INVADERS</h1>
+    <h1 class="text-4xl font-bold mb-4 text-white tracking-widest">SPACE INVADERS - GREEN</h1>
 
     <div class="flex items-center justify-between w-full max-w-4xl mb-4 px-4">
         <div class="flex items-center space-x-2">
@@ -105,19 +105,19 @@
         }
 
         function drawPlayer() {
-            ctx.fillStyle = '#34d399'; // Emerald Green
+            ctx.fillStyle = '#ffffff'; // White player for better visibility on green
             ctx.fillRect(player.x, player.y, player.width, player.height);
         }
 
         function drawBullets() {
-            ctx.fillStyle = '#f87171'; // Red
+            ctx.fillStyle = '#fbbf24'; // Yellow bullets for better visibility
             bullets.forEach(bullet => {
                 ctx.fillRect(bullet.x, bullet.y, 5, 15);
             });
         }
 
         function drawInvaders() {
-            ctx.fillStyle = '#60a5fa'; // Blue
+            ctx.fillStyle = '#ef4444'; // Red invaders for better contrast on green
             invaders.forEach(invader => {
                 ctx.fillRect(invader.x, invader.y, invader.width, invader.height);
             });

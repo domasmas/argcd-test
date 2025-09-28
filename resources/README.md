@@ -19,18 +19,34 @@ A set of ultra-simple ASP.NET Core Razor Pages apps, each themed with a differen
 
 ## Building and Pushing Images
 
+### Individual Apps
+
 Each folder contains an identical PowerShell helper script:
 
 ```powershell
 # Run inside the application folder
-dotnet restore
-# optional – scripts perform docker build without prior publish
+cd blue-app
+./build-and-push.ps1
 
-# Build and push to Docker Hub (example)
-./build-and-push.ps1 -Repository yourdockerhubuser/green-app -Tag v1
+# Or with a custom tag
+./build-and-push.ps1 -Tag v1.2
+```
+
+### All Apps at Once
+
+Use the master build script from the resources folder:
+
+```powershell
+# Build and push all color apps with default 'latest' tag
+./build-all-apps.ps1
+
+# Build and push all color apps with custom tag
+./build-all-apps.ps1 -Tag v2.0
 ```
 
 Make sure you invoke `docker login` beforehand so the push succeeds.
+
+**Note**: All images are pushed to `domasmasiulis/<app-name>:tag` on Docker Hub.
 
 ## Running Locally
 

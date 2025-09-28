@@ -47,11 +47,14 @@ This exercise will:
 
 ### Step 1: Run the Setup Script
 
-The provided `setup.ps1` script automates the entire Argo CD installation process:
+The provided `setup.ps1` script automates the entire Argo CD installation process with optimized timing (max 30-second waits):
 
 ```powershell
 # Navigate to the exercise directory
 cd practise\2. argo-cd-local
+
+# (Optional) Complete cleanup of any existing installation
+.\cleanup.ps1
 
 # Run the setup script
 .\setup.ps1
@@ -218,12 +221,17 @@ For this local development setup:
 When you're finished with all exercises, you can remove Argo CD:
 
 ```powershell
-# Complete cleanup
+# Complete cleanup using the dedicated script
+.\cleanup.ps1
+
+# Or manual cleanup
 kubectl delete namespace argocd
 
 # Verify removal
 kubectl get namespaces
 ```
+
+The `cleanup.ps1` script ensures all ArgoCD resources are completely removed, including cluster roles and role bindings.
 
 ## Next Steps
 
