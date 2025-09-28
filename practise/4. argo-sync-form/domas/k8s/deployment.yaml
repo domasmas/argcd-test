@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sync-form-app
+  name: sync-form-app-v2
   labels:
-    app: sync-form-app
+    app: sync-form-app-v2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sync-form-app
+      app: sync-form-app-v2
   template:
     metadata:
       labels:
-        app: sync-form-app
+        app: sync-form-app-v2
     spec:
       containers:
         - name: web
