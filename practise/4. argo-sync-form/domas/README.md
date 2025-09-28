@@ -107,11 +107,16 @@ Tip: run `kubectl get pods -n sync-form --watch` and `kubectl get events -n sync
 
 ### 4.4 Force vs Replace – handling immutable fields
 
-1. Change `containerPort` in `deployment.yaml` to `8081`, commit, and push.
-2. Run a normal sync. It fails because the container port is immutable once the pod exists.
-3. In **HISTORY AND ROLLBACK** inspect the failed entry (Force: false, Replace: false).
-4. Retry the sync with **Force** checked. Watch the Events log as the ReplicaSet is recreated.
-5. Revert the port to 8080, commit, and push. This time sync with **Replace** to see the alternative remediation.
+1. Update the labels for the deployment:
+   - In `k8s/deployment.yaml` change every `app: sync-form-app` value under `metadata.labels`, `spec.selector.matchLabels`, and `spec.template.metadata.labels` to `app: sync-form-app-v2`.
+   - In `k8s/service.yaml` change the selector to `app: sync-form-app-v2` so traffic still routes to the pods.
+   - Commit and push the changes so Argo CD notices the drift.
+2. Trigger a normal sync. It fails with an immutable-field error (`spec.selector` cannot be changed in-place).
+3. Open **HISTORY AND ROLLBACK** to confirm the failed operation recorded `Force: false`, `Replace: false`.
+4. Retry the sync with **Force** checked. Argo CD deletes and recreates the Deployment so the new selector takes effect. Verify new pods appear with the `sync-form-app-v2` label.
+5. Revert both files back to `app: sync-form-app`, commit, and push.
+6. Sync again, this time with **Replace** enabled. Argo CD performs a `kubectl replace --force`, recreating the Deployment to reconcile the selector change without using Force.
+7. Inspect **DETAILS → Events** and **HISTORY AND ROLLBACK** to compare how Force vs Replace are reported. Leave the manifests in their original state when finished.
 
 ### 4.5 Prune propagation policy & prune last
 
