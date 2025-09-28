@@ -107,7 +107,27 @@ Tip: run `kubectl get pods -n sync-form --watch` and `kubectl get events -n sync
 
 ### 4.4 Prune propagation policy & prune last
 
-1. Add a temporary file `k8s/extra-service.yaml` (duplicate the Service with a new name `sync-form-app-temp`) and reference it in `kustomization.yaml`.
+1. Add a temporary file `k8s/extra-service.yaml` with a unique service that avoids reusing the NodePort. An easy option is to expose it as a ClusterIP service:
+
+   ```yaml
+   apiVersion: v1
+   kind: Service
+   metadata:
+      name: sync-form-app-temp
+      labels:
+         app: sync-form-app
+   spec:
+      type: ClusterIP
+      selector:
+         app: sync-form-app
+      ports:
+         - name: http
+            port: 80
+            targetPort: 8080
+   ```
+
+   Update `k8s/kustomization.yaml` to include `extra-service.yaml` alongside the existing manifests.
+
 2. Commit, push, and sync so both services exist.
 3. Remove the file and its reference, commit, and push.
 4. Sync with **Prune** and set **Prune Propagation Policy** to `background`. Watch the service disappear while the sync completes immediately.
