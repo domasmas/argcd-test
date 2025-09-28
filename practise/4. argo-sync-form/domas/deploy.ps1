@@ -24,7 +24,7 @@ spec:
   source:
     repoURL: $RepositoryUrl
     targetRevision: $Revision
-    path: practise/4. argo-sync-form/k8s
+    path: practise/4. argo-sync-form/domas/k8s
   destination:
     server: https://kubernetes.default.svc
     namespace: $Namespace

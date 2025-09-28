@@ -1,8 +1,6 @@
-# Argo CD Sync Form Deep-Dive (Color App Lab)
+# Argo CD Sync Form Deep-Dive
 
-This lab explores e### 4.2 Dry run vs apply (showing why dry run doesn't change the cluster)
-
-1. Open `practise/4. argo-sync-form/k8s/deployment.yaml` in your editor. Locate the line `image: domasmasiulis/green-app:latest` and change it to `image: domasmasiulis/blue-app:latest`.y control on Argo CD's **Sync** dialog using the five color-themed en, blue, yellow, purple, red). Each exercise shows how a setting changes the outcome when you synchronize the `sync-form-lab` application.
+1. Open `practise/4. argo-sync-form/domas/k8s/deployment.yaml` in your editor. Locate the line `image: domasmasiulis/green-app:latest` and change it to `image: domasmasiulis/blue-app:latest`.y control on Argo CD's **Sync** dialog using the five color-themed en, blue, yellow, purple, red). Each exercise shows how a setting changes the outcome when you synchronize the `sync-form-lab` application.
 
 > **Heads-up:** The **Red App** intentionally throws an exception a few seconds after start-up. You'll use it to observe retry, force, and replace behaviour during sync.
 
@@ -18,7 +16,7 @@ This lab explores e### 4.2 Dry run vs apply (showing why dry run doesn't change 
 From the repo root:
 
 ```powershell
-cd practise/4. argo-sync-form
+cd practise/4. argo-sync-form/domas
 ./deploy.ps1 -RepositoryUrl "https://github.com/<your-username>/argcd-test" -Revision main
 ```
 
@@ -27,6 +25,8 @@ This creates an Argo CD application called `sync-form-lab` pointed at the manife
 Open the Argo CD UI (usually http://localhost:30088) and locate the application. It will appear **OutOfSync** because no sync has ever been run.
 
 ## 3. Sync form cheat sheet
+
+![alt text](../.images/sync-form.png)
 
 | Control                                                                | What it does                                                        | Suggested scenario                                                             |
 | ---------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
@@ -70,7 +70,7 @@ Tip: run `kubectl get pods -n sync-form --watch` and `kubectl get events -n sync
 
 ### 4.2 Dry run vs apply (showing why dry run doesn’t change the cluster)
 
-1. Open `practise/argo-sync-form/k8s/deployment.yaml` in your editor. Locate the line `image: domasmasiulis/green-app:latest` and change it to `image: domasmasiulis/blue-app:latest`.
+1. Open `practise/4. argo-sync-form/domas/k8s/deployment.yaml` in your editor. Locate the line `image: domasmasiulis/green-app:latest` and change it to `image: domasmasiulis/blue-app:latest`.
 2. Save the file, then run:
    ```powershell
    git status
