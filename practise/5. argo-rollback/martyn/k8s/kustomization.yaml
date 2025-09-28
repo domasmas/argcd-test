@@ -5,5 +5,5 @@ resources:
   - service.yaml
 images:
   - name: domasmasiulis/blue-app
-    newName: domasmasiulis/blue-app
+    newName: domasmasiulis/purple-app
     newTag: latest

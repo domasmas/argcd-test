@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: blue-app-jason
+  name: blue-app-domas
   labels:
-    app: blue-app-jason
+    app: blue-app-domas
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: blue-app-jason
+      app: blue-app-domas
   template:
     metadata:
       labels:
-        app: blue-app-jason
+        app: blue-app-domas
     spec:
       containers:
         - name: web

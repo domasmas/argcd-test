@@ -12,6 +12,8 @@ cd practise/5. argo-rollback/david
 
 The script registers an Argo CD application named `rollback-blue-to-purple-david` with auto-sync enabled. Within a few moments you should see one pod running the blue app in namespace `blue-app-david`.
 
+> Tip: Argo CD may briefly report `waiting for healthy state of /Namespace/blue-app-david` while the namespace warms up. The deploy script now enables automatic retries, so the sync should succeed without manual intervention—just give it a minute.
+
 Verify:
 
 ```powershell
@@ -19,7 +21,7 @@ kubectl get pods -n blue-app-david
 kubectl get svc -n blue-app-david
 ```
 
-Browse to `http://localhost:30083` to confirm the blue UI.
+Browse to `http://localhost:30081` to confirm the blue UI.
 
 ## 2. Trigger a rollout to the Purple App via GitOps
 
@@ -40,15 +42,15 @@ Example diff:
 +    newTag: latest
 ```
 
-Once the commit reaches the remote, Argo CD detects it and automatically syncs. Watch your app switch to the purple theme in both the UI and the service endpoint (`http://localhost:30083`).
+Once the commit reaches the remote, Argo CD detects it and automatically syncs. Watch your app switch to the purple theme in both the UI and the service endpoint (`http://localhost:30081`).
 
 ## 3. Practice an Argo CD rollback
 
 1. In the Argo CD UI, open the `rollback-blue-to-purple-david` application.
 2. Open the **History and Rollback** menu and select the previous revision (the blue app deployment).
-3. Confirm the rollback.
-
-Argo CD immediately reapplies the earlier manifest revision, restoring the blue app pod. Refresh `http://localhost:30083` to confirm the change.
+3. Click on triple dot menu and rollback action. Confirm the rollback. You can use revision links to double-check which version to rollback to.
+4. Once rolledback, navigate back to `http://localhost:30081` to confirm old version of the app is available.
+5. Also sync status should say OutOfSync. You can click on DIFF button to see what is exactly behind from the gitops repo.
 
 ## 4. Optional clean-up
 

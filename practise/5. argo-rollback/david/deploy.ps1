@@ -2,9 +2,9 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$RepositoryUrl,
 
-    [string]$Revision = "main",
-    [string]$AppName = "rollback-blue-to-purple-david",
-    [string]$Namespace = "blue-app-david"
+  [string]$Revision = "main",
+  [string]$AppName = "rollback-blue-to-purple-david",
+  [string]$Namespace = "blue-app-david"
 )
 
 $ErrorActionPreference = "Stop"
@@ -24,7 +24,7 @@ spec:
   source:
     repoURL: $RepositoryUrl
     targetRevision: $Revision
-    path: practise/5. argo-rollback/david/k8s
+  path: practise/5. argo-rollback/david/k8s
   destination:
     server: https://kubernetes.default.svc
     namespace: $Namespace
@@ -32,6 +32,12 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 1m
     syncOptions:
       - CreateNamespace=true
 "@
