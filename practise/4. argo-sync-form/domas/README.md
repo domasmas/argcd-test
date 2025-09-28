@@ -105,20 +105,7 @@ Tip: run `kubectl get pods -n sync-form --watch` and `kubectl get events -n sync
 9. **SYNC STATUS** should report that prune was skipped because apply-only mode is enabled. Confirm the ConfigMap still exists in the cluster.
 10. Restore the final state by putting `- configmap.yaml` back, committing, pushing, and syncing once more.
 
-### 4.4 Force vs Replace – handling immutable fields
-
-1. Update the labels for the deployment:
-   - In `k8s/deployment.yaml` change every `app: sync-form-app` value under `metadata.labels`, `spec.selector.matchLabels`, and `spec.template.metadata.labels` to `app: sync-form-app-v2`.
-   - In `k8s/service.yaml` change the selector to `app: sync-form-app-v2` so traffic still routes to the pods.
-   - Commit and push the changes so Argo CD notices the drift.
-2. Trigger a normal sync. It fails with an immutable-field error (`spec.selector` cannot be changed in-place).
-3. Open **HISTORY AND ROLLBACK** to confirm the failed operation recorded `Force: false`, `Replace: false`.
-4. Retry the sync with **Force** checked. Argo CD deletes and recreates the Deployment so the new selector takes effect. Verify new pods appear with the `sync-form-app-v2` label.
-5. Revert both files back to `app: sync-form-app`, commit, and push.
-6. Sync again, this time with **Replace** enabled. Argo CD performs a `kubectl replace --force`, recreating the Deployment to reconcile the selector change without using Force.
-7. Inspect **DETAILS → Events** and **HISTORY AND ROLLBACK** to compare how Force vs Replace are reported. Leave the manifests in their original state when finished.
-
-### 4.5 Prune propagation policy & prune last
+### 4.4 Prune propagation policy & prune last
 
 1. Add a temporary file `k8s/extra-service.yaml` (duplicate the Service with a new name `sync-form-app-temp`) and reference it in `kustomization.yaml`.
 2. Commit, push, and sync so both services exist.
@@ -128,7 +115,7 @@ Tip: run `kubectl get pods -n sync-form --watch` and `kubectl get events -n sync
 6. Enable **Prune Last** and remove another temporary resource to observe update-before-delete ordering.
 7. Clean up any temporary files in Git before proceeding.
 
-### 4.6 Retry with the Red App – controlled failure
+### 4.5 Retry with the Red App – controlled failure
 
 1. Switch the Deployment image to `domasmasiulis/red-app:latest`, commit, and push.
 2. In the sync drawer expand **Retry**, set **Limit** to `3`, **Backoff** to `5s`, and sync.
@@ -136,7 +123,7 @@ Tip: run `kubectl get pods -n sync-form --watch` and `kubectl get events -n sync
 4. Inspect **HISTORY AND ROLLBACK** to see the retry metadata captured.
 5. Restore a healthy image (e.g., Blue), commit, push, and sync to return to normal.
 
-### 4.7 Apply out-of-sync only – drift correction
+### 4.6 Apply out-of-sync only – drift correction
 
 1. Without touching Git, scale the deployment: `kubectl scale deployment sync-form-app -n sync-form --replicas=3`.
 2. In Argo CD the app shows OutOfSync. Run **SYNC** with **Apply Out of Sync Only** checked.
