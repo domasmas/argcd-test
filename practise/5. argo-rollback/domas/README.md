@@ -12,6 +12,8 @@ cd practise/5. argo-rollback/domas
 
 The script registers an Argo CD application named `rollback-blue-to-purple-domas` with auto-sync enabled. Within a few moments you should see one pod running the blue app in namespace `blue-app-domas`.
 
+> Tip: Argo CD may briefly report `waiting for healthy state of /Namespace/blue-app-domas` while the namespace warms up. The deploy script now enables automatic retries, so the sync should succeed without manual intervention—just give it a minute.
+
 Verify:
 
 ```powershell
