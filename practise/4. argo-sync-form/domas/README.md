@@ -1,6 +1,6 @@
 # Argo CD Sync Form Deep-Dive
 
-1. Open `practise/4. argo-sync-form/domas/k8s/deployment.yaml` in your editor. Locate the line `image: domasmasiulis/green-app:latest` and change it to `image: domasmasiulis/blue-app:latest`.y control on Argo CD's **Sync** dialog using the five color-themed en, blue, yellow, purple, red). Each exercise shows how a setting changes the outcome when you synchronize the `sync-form-lab` application.
+This exercise demonstrates precise control on Argo CD's **Sync** dialog using the five color-themed apps (green, blue, yellow, purple, red). Each exercise shows how a setting changes the outcome when you synchronize the `sync-form-lab` application.
 
 > **Heads-up:** The **Red App** intentionally throws an exception a few seconds after start-up. You'll use it to observe retry, force, and replace behaviour during sync.
 
