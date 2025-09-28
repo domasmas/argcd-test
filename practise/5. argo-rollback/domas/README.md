@@ -48,9 +48,9 @@ Once the commit reaches the remote, Argo CD detects it and automatically syncs. 
 
 1. In the Argo CD UI, open the `rollback-blue-to-purple-domas` application.
 2. Open the **History and Rollback** menu and select the previous revision (the blue app deployment).
-3. Confirm the rollback.
-
-Argo CD immediately reapplies the earlier manifest revision, restoring the blue app pod. Refresh `http://localhost:30081` to confirm the change.
+3. Click on triple dot menu and rollback action. Confirm the rollback. You can use revision links to double-check which version to rollback to.
+4. Once rolledback, navigate back to `http://localhost:30081` to confirm old version of the app is available.
+5. Also sync status should say OutOfSync. You can click on DIFF button to see what is exactly behind from the gitops repo.
 
 ## 4. Optional clean-up
 
