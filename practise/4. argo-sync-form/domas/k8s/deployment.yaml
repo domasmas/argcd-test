@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       labels:
-  app: sync-form-app
+        app: sync-form-app
     spec:
       containers:
         - name: web
