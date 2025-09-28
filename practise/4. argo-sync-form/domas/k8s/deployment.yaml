@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: domasmasiulis/green-app:latest
+          image: domasmasiulis/blue-app:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

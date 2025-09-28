@@ -63,7 +63,7 @@ Tip: run `kubectl get pods -n sync-form --watch` and `kubectl get events -n sync
 1. Confirm the namespace does not exist yet: `kubectl get ns sync-form` (you should see _NotFound_).
 2. In the Argo CD UI click **SYNC**.
 3. Tick **Auto-Create Namespace**. Leave every other option unchecked.
-4. Click **SYNCHRONIZE**.
+4. Click **SYNCHRONIZE**. If see an error, or syncing gets stuck for more than 1 minutes, try couple times again.
 5. Immediately open **DETAILS → Events** and note the message `namespace/sync-form created` followed by creation of the Service and Deployment.
 6. In a terminal run `kubectl get ns sync-form` and `kubectl get pods -n sync-form`. You should see one pod named similar to `sync-form-app-xxxx` in `Running` state.
 7. Visit http://localhost:30087 to verify the Green App is reachable.
