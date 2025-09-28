@@ -19,7 +19,7 @@ spec:
           image: domasmasiulis/green-app:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: 8081
           env:
             - name: ASPNETCORE_URLS
               value: "http://+:8080"

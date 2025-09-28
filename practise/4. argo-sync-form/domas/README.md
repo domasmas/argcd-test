@@ -101,7 +101,7 @@ Tip: run `kubectl get pods -n sync-form --watch` and `kubectl get events -n sync
    - Re-add `- configmap.yaml` to `kustomization.yaml`.
    - Commit, push, and run a normal sync so the ConfigMap is recreated.
 7. Remove the line again, commit, and push—this sets up a second prune scenario.
-8. This time run **SYNC** with **Prune** **and** **Apply Only** checked.
+8. This time run **SYNC** with **Apply Only** checked.
 9. **SYNC STATUS** should report that prune was skipped because apply-only mode is enabled. Confirm the ConfigMap still exists in the cluster.
 10. Restore the final state by putting `- configmap.yaml` back, committing, pushing, and syncing once more.
 
