@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: blue-app-domas
+  name: blue-app-max
   labels:
-    app: blue-app-domas
+    app: blue-app-max
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: blue-app-domas
+      app: blue-app-max
   template:
     metadata:
       labels:
-        app: blue-app-domas
+        app: blue-app-max
     spec:
       containers:
         - name: web
