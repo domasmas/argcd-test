@@ -1,6 +1,19 @@
 # Argo CD Sync Form Deep-Dive
 
-This exercise demonstrates precise control on Argo CD's **Sync** dialog using the five color-themed apps (green, blue, yellow, purple, red). Each exercise shows how a setting changes the outcome when you synchronize the `sync-form-lab` application.
+This exercise demonstrates precise control on Argo CD's **Sync**2. Verify 7. Now restore the configmap reference to test "Apply Only":
+   - Uncomment or re-add `- configmap.yaml` to `kustomization.yaml`
+   - Commit and push
+   - Sync normally to recreate the configmap
+8. Remove the configmap reference from `kustomization.yaml` again, commit and push.
+9. Run **SYNC** this time tick **Prune** _and_ **Apply Only**. This combination tells Argo CD to render prune information but not execute deletions.
+10. After the sync, **SYNC STATUS** shows "Prune skipped because apply-only mode is enabled". The ConfigMap still exists if you query it with kubectl.
+11. Restore the final state: re-add `- configmap.yaml` to `kustomization.yaml`, commit and push, then sync to have a clean setup for the next scenario.figmap exists and is managed by ArgoCD: `kubectl get configmap app-settings -n sync-form`.
+3. Now simulate removing the configmap from Git by temporarily editing `kustomization.yaml`:
+   - Comment out or remove the line `- configmap.yaml` from `kustomization.yaml`
+   - Save, commit and push this change
+4. In Argo CD the app will show **OutOfSync**. Click **SYNC**, tick **Prune**, leave everything else off, then click **SYNCHRONIZE**.
+5. Open **DETAILS → Events** and look for `configmap/app-settings deleted`. **SYNC STATUS** shows one deleted resource.
+6. Confirm deletion with `kubectl get configmap app-settings -n sync-form` (should report "NotFound").log using the five color-themed apps (green, blue, yellow, purple, red). Each exercise shows how a setting changes the outcome when you synchronize the `sync-form-lab` application.
 
 > **Heads-up:** The **Red App** intentionally throws an exception a few seconds after start-up. You'll use it to observe retry, force, and replace behaviour during sync.
 
@@ -30,7 +43,7 @@ Open the Argo CD UI (usually http://localhost:30088) and locate the application.
 
 | Control                                                                | What it does                                                        | Suggested scenario                                                             |
 | ---------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| **Prune**                                                              | Deletes cluster resources that exist live but not in Git            | Manually create an extra `ConfigMap` and watch it vanish when Prune is checked |
+| **Prune**                                                              | Deletes cluster resources that exist live but not in Git            | Remove a resource from Git and watch it vanish when Prune is checked |
 | **Dry Run**                                                            | Renders manifests and diffs without applying changes                | Preview a switch from Green → Blue                                             |
 | **Apply Only**                                                         | Avoids pruning even if prune checkbox is set                        | Compare with previous step to see resources linger                             |
 | **Force**                                                              | Replaces immutable fields using `kubectl replace --force` semantics | Swap between Blue ↔ Yellow rapidly to observe rollout                          |
@@ -90,9 +103,10 @@ Tip: run `kubectl get pods -n sync-form --watch` and `kubectl get events -n sync
 
 ### 4.3 Prune vs Apply Only
 
-1. Create a resource that is _not_ tracked in Git:
+1. First, sync the application to ensure ArgoCD manages the configmap:
    ```powershell
-   kubectl create configmap stray-settings --from-literal=color=rogue -n sync-form
+   # The repo now contains a configmap.yaml - sync it first if not already done
+   # In ArgoCD UI: click SYNC and synchronize (no special options needed)
    ```
 2. Verify it exists with `kubectl get configmap stray-settings -n sync-form`.
 3. In Argo CD click **SYNC**, tick **Prune**, leave everything else off, then click **SYNCHRONIZE**.
